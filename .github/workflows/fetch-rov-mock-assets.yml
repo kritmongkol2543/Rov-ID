@@ -1,0 +1,42 @@
+name: Fetch public RoV mock assets
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/fetch-rov-mock-assets.yml'
+      - 'scripts/fetch_rov_mock_assets.py'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-assets:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install image tools
+        run: pip install requests beautifulsoup4 pillow
+
+      - name: Fetch public RoV artwork and item images
+        run: python scripts/fetch_rov_mock_assets.py
+
+      - name: Commit mockup assets
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add assets/rov-hero.jpg assets/rov-item-1.png assets/rov-item-2.png assets/rov-item-3.png assets/rov-item-4.png
+          if git diff --cached --quiet; then
+            echo 'No asset changes'
+          else
+            git commit -m 'Add public RoV mockup assets'
+            git push
+          fi
