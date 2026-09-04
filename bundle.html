@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <title>RIFT ID — ROV Account Store</title>
+  <meta name="description" content="ROV account storefront mockup — engineered editorial direction." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Noto+Sans+Thai:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+:root{
+      --ink:#0b0b0b; --body:#202020; --muted:#717171; --stone:#959595;
+      --canvas:#fdfdfc; --soft:#f5f5f3; --dark:#0b0b0b; --dark-2:#191919;
+      --line:#d2d2cf; --line-dark:#454545; --accent:#76b900; --accent-dark:#5b9000;
+      --error:#d92727; --warning:#d86a00; --success:#3f8500;
+      --max:1280px; --r:2px; --ease:cubic-bezier(.16,1,.3,1);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--canvas);color:var(--ink);font-family:Inter,"Noto Sans Thai",Arial,sans-serif;font-size:16px;line-height:1.5}
+    button,input,select{font:inherit}
+    button{cursor:pointer}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+    .wrap{width:min(var(--max),calc(100% - 48px));margin-inline:auto}
+    .utility{height:32px;background:var(--dark);color:#ddd;border-bottom:1px solid #282828;font-size:12px}
+    .utility .wrap{height:100%;display:flex;align-items:center;justify-content:flex-end;gap:20px}
+    .utility button{border:0;background:none;color:#ddd;padding:0;min-height:32px}
+    .nav{height:64px;background:var(--dark);color:#fff;border-bottom:1px solid #282828;position:sticky;top:0;z-index:50}
+    .nav .wrap{height:100%;display:flex;align-items:center;gap:34px}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:-.02em;white-space:nowrap}
+    .brand-mark{width:34px;height:34px;background:var(--accent);display:grid;place-items:center;color:#111;font-weight:800;position:relative}
+    .brand-mark:after{content:"";width:8px;height:8px;background:#111;position:absolute;right:0;bottom:0}
+    .brand small{display:block;font-size:10px;color:#a8a8a8;font-weight:600;letter-spacing:.08em}
+    .navlinks{display:flex;align-items:center;gap:28px;font-size:14px;font-weight:600}
+    .navlinks a{color:#d6d6d6}
+    .navlinks a:hover{color:#fff}
+    .spacer{flex:1}
+    .nav-actions{display:flex;align-items:center;gap:10px}
+    .btn{height:44px;border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:var(--r);padding:0 18px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:transform .18s var(--ease),opacity .18s var(--ease),background .18s var(--ease),border-color .18s var(--ease)}
+    .btn:hover{border-color:#8d8d89}
+    .btn:active{transform:translateY(1px)}
+    .btn.primary{background:var(--accent);border-color:var(--accent);color:#111}
+    .btn.primary:hover{background:var(--accent-dark);border-color:var(--accent-dark);color:#fff}
+    .btn.on-dark{color:#fff;border-color:#fff}
+    .btn.sm{height:36px;padding:0 12px;font-size:13px}
+    .hamb{display:none;width:44px;height:44px;border:1px solid #3a3a3a;background:transparent;color:#fff;border-radius:var(--r)}
+
+    .hero{background:var(--dark);color:#fff;border-bottom:1px solid #222;min-height:570px;display:flex;align-items:center;overflow:hidden}
+    .hero-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(520px,1.1fr);gap:56px;align-items:center;padding:76px 0}
+    .hero-kicker{font-size:12px;color:#c7c7c7;font-weight:700;margin-bottom:16px}
+    .hero h1{font-size:clamp(40px,5vw,66px);line-height:1.04;letter-spacing:-.045em;margin:0 0 20px;max-width:760px}
+    .hero p{font-size:18px;line-height:1.7;color:#cfcfcf;max-width:650px;margin:0}
+    .hero-actions{display:flex;gap:12px;margin-top:30px;flex-wrap:wrap}
+    .hero-note{margin-top:24px;font-size:12px;color:#8f8f8f;max-width:620px}
+    .hero-stage{height:410px;border:1px solid var(--line-dark);position:relative;display:grid;grid-template-columns:1fr 160px;background:#111;overflow:hidden}
+    .hero-stage:before{content:"";position:absolute;left:0;top:0;width:13px;height:13px;background:var(--accent);z-index:3}
+    .dossier{padding:32px 30px;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid var(--line-dark)}
+    .dossier-top{display:flex;justify-content:space-between;gap:24px;align-items:start}
+    .idcode{font-size:11px;letter-spacing:.14em;color:#9c9c9c;font-weight:700}
+    .edition{font-size:12px;color:var(--accent);font-weight:700}
+    .account-title{margin-top:auto}
+    .account-title h2{font-size:38px;line-height:1.05;letter-spacing:-.035em;margin:0 0 10px}
+    .account-title p{font-size:14px;line-height:1.6;color:#aaa;margin:0;max-width:430px}
+    .spec-line{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line-dark);margin-top:24px}
+    .spec-line div{padding:14px 12px 0 0}
+    .spec-line b{display:block;font-size:18px}
+    .spec-line span{font-size:10px;color:#8e8e8e}
+    .skin-rail{display:grid;grid-template-rows:repeat(4,1fr)}
+    .skin-cell{border-bottom:1px solid var(--line-dark);padding:14px 12px;display:flex;flex-direction:column;justify-content:flex-end;background:#161616}
+    .skin-cell:last-child{border-bottom:0}
+    .skin-cell b{font-size:12px}
+    .skin-cell span{font-size:10px;color:#8d8d8d;margin-top:2px}
+
+    .subbar{background:var(--soft);border-bottom:1px solid var(--line)}
+    .subbar .wrap{min-height:54px;display:flex;align-items:center;gap:22px;font-size:13px}
+    .subbar strong{margin-right:8px}
+    .subbar a{color:#555}
+    .subbar a:hover{color:#000}
+
+    .section{padding:64px 0}
+    .section-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,.45fr);gap:40px;align-items:end;margin-bottom:30px}
+    .section-head h2{font-size:36px;line-height:1.15;letter-spacing:-.035em;margin:0 0 8px}
+    .section-head p{margin:0;color:#5e5e5e;max-width:720px}
+    .section-head .meta{text-align:right;font-size:13px;color:#727272}
+
+    .flowlab{background:var(--dark);color:#fff;border-top:1px solid #222;border-bottom:1px solid #222;padding:24px 0}
+    .flow-grid{display:grid;grid-template-columns:260px 1fr 1fr;gap:28px;align-items:center}
+    .flow-title b{font-size:16px;display:block}
+    .flow-title span{font-size:12px;color:#8f8f8f}
+    .seg{display:grid;grid-template-columns:1fr 1fr;border:1px solid #494949;background:#121212}
+    .seg button{min-height:44px;border:0;border-right:1px solid #494949;background:transparent;color:#adadad;font-weight:700;font-size:13px;border-radius:0}
+    .seg button:last-child{border-right:0}
+    .seg button.active{background:var(--accent);color:#111}
+
+    .toolbar{display:grid;grid-template-columns:minmax(260px,1.4fr) repeat(3,minmax(140px,.7fr));gap:8px;margin-bottom:20px}
+    .field{height:44px;border:1px solid var(--line);background:var(--canvas);color:var(--ink);border-radius:var(--r);padding:0 13px;min-width:0}
+    .field:focus{border-color:var(--accent);outline:1px solid var(--accent)}
+    .catalog-layout{display:grid;grid-template-columns:228px 1fr;gap:24px;align-items:start}
+    .filters{border-top:2px solid var(--ink);border-bottom:1px solid var(--line);position:sticky;top:86px;background:var(--canvas)}
+    .filter-title{padding:16px 0;font-weight:700;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;font-size:14px}
+    .filter-group{padding:16px 0;border-bottom:1px solid var(--line)}
+    .filter-group h3{font-size:12px;margin:0 0 10px;color:#505050}
+    .filter-group label{display:flex;align-items:center;gap:9px;margin:8px 0;font-size:13px;color:#343434}
+    .filter-group input[type=checkbox]{width:16px;height:16px;accent-color:var(--accent)}
+    .range-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .range-row input{width:100%;height:38px;border:1px solid var(--line);border-radius:var(--r);padding:0 8px}
+    .result-row{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:12px;font-size:13px;color:#646464}
+    .products{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+    .product{border:1px solid var(--line);background:var(--canvas);border-radius:var(--r);position:relative;min-width:0;transition:transform .18s var(--ease),border-color .18s var(--ease)}
+    .product:hover{transform:translateY(-2px);border-color:#8b8b87}
+    .product:before{content:"";position:absolute;left:-1px;top:-1px;width:12px;height:12px;background:var(--accent);z-index:2}
+    .cover{aspect-ratio:16/10;background:#171717;color:#fff;border-bottom:1px solid var(--line);padding:18px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+    .cover:after{content:attr(data-index);position:absolute;right:12px;bottom:-18px;font-size:82px;line-height:1;font-weight:800;letter-spacing:-.07em;color:#282828}
+    .cover-top{display:flex;justify-content:space-between;align-items:start;position:relative;z-index:1}
+    .cover-code{font-size:10px;letter-spacing:.12em;color:#b9b9b9;font-weight:700}
+    .cover-state{font-size:10px;font-weight:700;color:var(--accent)}
+    .cover-state.sold{color:#ff8686}
+    .cover-bottom{position:relative;z-index:1}
+    .cover-bottom b{display:block;font-size:17px;line-height:1.2;max-width:85%}
+    .cover-bottom span{font-size:11px;color:#9d9d9d}
+    .product-body{padding:16px}
+    .product-title-row{display:flex;align-items:start;justify-content:space-between;gap:12px}
+    .product h3{font-size:16px;line-height:1.35;margin:0}
+    .price{font-size:16px;font-weight:800;white-space:nowrap}
+    .chips{display:flex;gap:5px;flex-wrap:wrap;margin:11px 0 13px}
+    .chip{font-size:10px;font-weight:700;background:var(--soft);padding:4px 7px;border-radius:var(--r);color:#4d4d4d}
+    .card-spec{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+    .card-spec div{padding:10px 8px 10px 0;border-right:1px solid var(--line)}
+    .card-spec div:last-child{border-right:0;padding-left:8px}
+    .card-spec div:nth-child(2){padding-left:8px}
+    .card-spec b{display:block;font-size:13px}
+    .card-spec span{font-size:9px;color:#777}
+    .product-actions{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:14px}
+    .linkbtn{height:40px;border:0;background:transparent;text-align:left;padding:0;font-weight:700;color:#272727}
+    .linkbtn:hover{color:var(--accent-dark)}
+    .loadmore{margin-top:22px;display:flex;justify-content:center}
+
+    .trust-table{border-top:2px solid var(--ink);border-bottom:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr)}
+    .trust-item{padding:26px 24px 28px 0;border-right:1px solid var(--line);min-height:160px}
+    .trust-item:not(:first-child){padding-left:24px}
+    .trust-item:last-child{border-right:0}
+    .trust-item .num{font-size:34px;line-height:1;font-weight:800;letter-spacing:-.04em;color:var(--accent-dark)}
+    .trust-item h3{font-size:16px;margin:16px 0 6px}
+    .trust-item p{font-size:13px;color:#666;margin:0;line-height:1.6}
+
+    .steps{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line)}
+    .step{padding:24px 24px 8px 0;border-right:1px solid var(--line)}
+    .step:not(:first-child){padding-left:24px}
+    .step:last-child{border-right:0}
+    .step-no{font-size:11px;color:var(--accent-dark);font-weight:800;letter-spacing:.08em}
+    .step h3{font-size:18px;margin:12px 0 6px}
+    .step p{font-size:13px;color:#666;line-height:1.65;margin:0}
+
+    .contact-strip{background:var(--dark);color:#fff;padding:58px 0;border-top:1px solid #242424}
+    .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:end}
+    .contact-strip h2{font-size:32px;line-height:1.15;letter-spacing:-.03em;margin:0 0 12px}
+    .contact-strip p{color:#a9a9a9;margin:0;max-width:600px}
+    .contact-list{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid #494949}
+    .contact-item{padding:18px 0;border-bottom:1px solid #494949}
+    .contact-item:nth-child(odd){border-right:1px solid #494949;padding-right:18px}
+    .contact-item:nth-child(even){padding-left:18px}
+    .contact-item b{display:block;font-size:13px}
+    .contact-item span{font-size:11px;color:#8f8f8f}
+
+    footer{background:var(--dark);color:#b4b4b4;border-top:1px solid #303030;padding:56px 0 24px}
+    .footer-grid{display:grid;grid-template-columns:1.4fr repeat(4,1fr);gap:40px}
+    .footer-brand p{font-size:12px;color:#7f7f7f;max-width:260px}
+    footer h4{font-size:13px;color:#fff;margin:0 0 12px}
+    footer a{display:block;font-size:12px;color:#999;margin:8px 0}
+    footer a:hover{color:#fff}
+    .fine{margin-top:44px;padding-top:18px;border-top:1px solid #303030;display:flex;justify-content:space-between;gap:20px;font-size:10px;color:#6f6f6f}
+
+    .drawer-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.54);z-index:80;opacity:0;pointer-events:none;transition:opacity .22s var(--ease)}
+    .drawer-backdrop.open{opacity:1;pointer-events:auto}
+    .drawer{position:fixed;top:0;right:0;bottom:0;width:min(520px,100%);background:var(--canvas);z-index:90;transform:translateX(100%);transition:transform .28s var(--ease);display:flex;flex-direction:column;border-left:1px solid var(--line)}
+    .drawer.open{transform:translateX(0)}
+    .drawer-head{height:64px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);flex:0 0 auto}
+    .drawer-head b{font-size:15px}
+    .close{width:44px;height:44px;border:1px solid var(--line);background:transparent;border-radius:var(--r);font-size:20px}
+    .drawer-body{padding:24px;overflow:auto;flex:1}
+    .drawer-foot{padding:16px 24px;border-top:1px solid var(--line);background:var(--soft);flex:0 0 auto}
+    .detail-cover{height:250px;background:#171717;color:#fff;padding:22px;display:flex;flex-direction:column;justify-content:space-between;position:relative}
+    .detail-cover:before{content:"";width:14px;height:14px;background:var(--accent);position:absolute;left:0;top:0}
+    .detail-cover strong{font-size:30px;line-height:1.1;max-width:80%;letter-spacing:-.03em}
+    .detail-cover span{font-size:11px;color:#aaa}
+    .detail-price{font-size:30px;font-weight:800;margin:22px 0}
+    .detail-grid{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line);border-left:1px solid var(--line);margin:18px 0}
+    .detail-grid div{padding:12px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+    .detail-grid b{display:block;font-size:13px}.detail-grid span{font-size:10px;color:#777}
+    .notice{background:var(--soft);border:1px solid var(--line);padding:14px;font-size:12px;color:#555;line-height:1.6}
+    .form-row{margin-bottom:12px}
+    .form-row label{display:block;font-size:12px;font-weight:700;margin-bottom:6px}
+    .form-row input{width:100%;height:44px;border:1px solid var(--line);border-radius:var(--r);padding:0 12px;background:var(--canvas)}
+    .auth-tabs{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);margin-bottom:20px}
+    .auth-tabs button{height:44px;border:0;border-right:1px solid var(--line);background:var(--canvas);font-weight:700;color:#666}
+    .auth-tabs button:last-child{border-right:0}.auth-tabs button.active{background:var(--ink);color:#fff}
+    .checkout-line{display:flex;justify-content:space-between;gap:20px;padding:12px 0;border-bottom:1px solid var(--line);font-size:13px}
+    .checkout-total{font-size:18px;font-weight:800}
+    .flow-note{font-size:12px;background:#eef6e6;border:1px solid #cbd9bf;padding:12px;margin:14px 0;color:#355018}
+    .mobile-filter-toggle{display:none}
+
+    @media(max-width:1080px){
+      .hero-grid{grid-template-columns:1fr;gap:40px}.hero-stage{max-width:760px}
+      .products{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .navlinks{display:none}.hamb{display:block}
+      .footer-grid{grid-template-columns:1.4fr repeat(2,1fr)}
+    }
+    @media(max-width:820px){
+      .wrap{width:min(var(--max),calc(100% - 32px))}
+      .section{padding:48px 0}.section-head{grid-template-columns:1fr}.section-head .meta{text-align:left}
+      .flow-grid{grid-template-columns:1fr}.toolbar{grid-template-columns:1fr 1fr}.toolbar .search{grid-column:1/-1}
+      .catalog-layout{grid-template-columns:1fr}.filters{position:static;display:none}.filters.open{display:block}.mobile-filter-toggle{display:inline-flex;margin-bottom:14px}
+      .trust-table{grid-template-columns:repeat(2,1fr)}.trust-item:nth-child(2){border-right:0}.trust-item:nth-child(-n+2){border-bottom:1px solid var(--line)}
+      .steps{grid-template-columns:repeat(2,1fr)}.step:nth-child(2){border-right:0}.step:nth-child(-n+2){border-bottom:1px solid var(--line)}
+      .contact-grid{grid-template-columns:1fr}.footer-grid{grid-template-columns:1fr 1fr}.footer-brand{grid-column:1/-1}
+    }
+    @media(max-width:560px){
+      .utility{display:none}.nav{height:58px}.nav .wrap{gap:12px}.nav-actions .btn.on-dark{display:none}
+      .brand small{display:none}.hero{min-height:auto}.hero-grid{padding:52px 0 36px}.hero h1{font-size:38px}.hero p{font-size:16px}
+      .hero-stage{height:360px;grid-template-columns:1fr 118px}.dossier{padding:24px 18px}.account-title h2{font-size:28px}.spec-line{grid-template-columns:repeat(2,1fr)}.spec-line div:nth-child(n+3){display:none}
+      .subbar{display:none}.toolbar{grid-template-columns:1fr}.toolbar .search{grid-column:auto}.products{grid-template-columns:1fr}
+      .section-head h2{font-size:30px}.trust-table,.steps{grid-template-columns:1fr}.trust-item,.trust-item:nth-child(2),.step,.step:nth-child(2){border-right:0;border-bottom:1px solid var(--line);padding-left:0}.trust-item:last-child,.step:last-child{border-bottom:0}
+      .contact-list{grid-template-columns:1fr}.contact-item:nth-child(odd){border-right:0;padding-right:0}.contact-item:nth-child(even){padding-left:0}
+      .footer-grid{grid-template-columns:1fr 1fr;gap:28px}.fine{display:block}.fine span{display:block;margin-top:8px}
+      .drawer{width:100%}
+    }
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+
+</style>
+
+</head>
+<body>
+  <div class="utility">
+    <div class="wrap"><span>ROV ACCOUNT STORE — MOCKUP</span><button onclick="openAuth('login')">เข้าสู่ระบบ</button><button onclick="openAuth('register')">สมัครสมาชิก</button></div>
+  </div>
+
+  <header class="nav">
+    <div class="wrap">
+      <button class="hamb" aria-label="เมนู">☰</button>
+      <a class="brand" href="#top"><span class="brand-mark">R</span><span>RIFT ID<small>ROV ACCOUNT STORE</small></span></a>
+      <nav class="navlinks" aria-label="เมนูหลัก"><a href="#catalog">ไอดีทั้งหมด</a><a href="#trust">รับประกัน</a><a href="#how">วิธีซื้อ</a><a href="#contact">ติดต่อ</a></nav>
+      <div class="spacer"></div>
+      <div class="nav-actions"><button class="btn on-dark" onclick="openAuth('login')">เข้าสู่ระบบ</button><a class="btn primary" href="#catalog">เลือกดูไอดี</a></div>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <div class="hero-kicker">STOCK OWNED BY STORE / REVIEWED BEFORE LISTING</div>
+          <h1>เลือก ID จากข้อมูลจริง.<br>ไม่ต้องเดาจากคำโฆษณา.</h1>
+          <p>ดูจำนวนสกิน ฮีโร่ แรงค์ รูน สถานะผูกบัญชี และเงื่อนไขรับประกันในหน้าเดียว ก่อนตัดสินใจซื้อ</p>
+          <div class="hero-actions"><a href="#catalog" class="btn primary">ดู ID พร้อมขาย</a><a href="#how" class="btn on-dark">ดูขั้นตอนการซื้อ</a></div>
+          <div class="hero-note">Mockup สำหรับทดสอบ UX/UI — ยังไม่เชื่อมระบบชำระเงินจริง ฐานข้อมูล หรือการส่งข้อมูลบัญชีจริง</div>
+        </div>
+        <div class="hero-stage" aria-label="ตัวอย่างข้อมูลบัญชี">
+          <div class="dossier">
+            <div class="dossier-top"><div><div class="idcode">RIFT / ID-041</div><div class="edition">COLLECTOR STOCK</div></div><span class="idcode">AVAILABLE</span></div>
+            <div class="account-title"><h2>Limited Skin Collection</h2><p>ตัวอย่างการนำเสนอ ID แบบ product dossier: สเปกชัด อ่านเร็ว และไม่ใช้ visual decoration แทนข้อมูล</p></div>
+            <div class="spec-line"><div><b>168</b><span>SKINS</span></div><div><b>121</b><span>HEROES</span></div><div><b>MASTER</b><span>RANK</span></div><div><b>90</b><span>RUNE</span></div></div>
+          </div>
+          <div class="skin-rail"><div class="skin-cell"><b>Limited</b><span>Collection A</span></div><div class="skin-cell"><b>Collab</b><span>Collection B</span></div><div class="skin-cell"><b>Rare</b><span>Collection C</span></div><div class="skin-cell"><b>Season</b><span>Collection D</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="subbar"><div class="wrap"><strong>ROV ID</strong><a href="#catalog">Catalog</a><a href="#trust">Store Policy</a><a href="#how">Purchase Flow</a><a href="#contact">Support</a></div></div>
+
+    <section class="flowlab" aria-label="ตัวเลือก flow สำหรับ mockup">
+      <div class="wrap flow-grid">
+        <div class="flow-title"><b>Checkout Flow Lab</b><span>สลับดู 4 combination ใน mockup เดียว</span></div>
+        <div class="seg" id="paySeg"><button class="active" data-pay="qr">QR อัตโนมัติ</button><button data-pay="slip">โอน + สลิป</button></div>
+        <div class="seg" id="deliverySeg"><button class="active" data-delivery="instant">รับ ID ทันที</button><button data-delivery="admin">Admin ตรวจสอบ</button></div>
+      </div>
+    </section>
+
+    <section class="section" id="catalog">
+      <div class="wrap">
+        <div class="section-head"><div><h2>ID พร้อมขาย</h2><p>จัดข้อมูลแบบ catalog-first เพื่อให้ผู้ซื้อเทียบสเปกและราคาได้เร็ว โดยไม่ต้องเปิดรายละเอียดทุกชิ้น</p></div><div class="meta"><span id="inventoryMeta">100 รายการใน Mockup</span><br>อัปเดตสถานะจำลองแบบ client-side</div></div>
+
+        <div class="toolbar">
+          <input id="search" class="field search" placeholder="ค้นหา ID, สกินเด่น, แรงค์..." aria-label="ค้นหา">
+          <select id="rankFilter" class="field" aria-label="แรงค์"><option value="all">ทุกแรงค์</option><option>Conqueror</option><option>Master</option><option>Diamond</option></select>
+          <select id="statusFilter" class="field" aria-label="สถานะ"><option value="all">ทุกสถานะ</option><option value="available">พร้อมขาย</option><option value="sold">ขายแล้ว</option></select>
+          <select id="sort" class="field" aria-label="เรียงลำดับ"><option value="featured">แนะนำ</option><option value="price-asc">ราคาต่ำ → สูง</option><option value="price-desc">ราคาสูง → ต่ำ</option><option value="skins-desc">สกินมากสุด</option></select>
+        </div>
+
+        <button class="btn sm mobile-filter-toggle" id="mobileFilterToggle">ตัวกรองละเอียด</button>
+        <div class="catalog-layout">
+          <aside class="filters" id="filters">
+            <div class="filter-title"><span>ตัวกรอง</span><span id="filterCount">0</span></div>
+            <div class="filter-group"><h3>ช่วงราคา</h3><div class="range-row"><input id="minPrice" type="number" placeholder="ต่ำสุด"><input id="maxPrice" type="number" placeholder="สูงสุด"></div></div>
+            <div class="filter-group"><h3>คุณสมบัติ</h3><label><input type="checkbox" data-filter="rare"> มีสกินหายาก</label><label><input type="checkbox" data-filter="clean"> สถานะบัญชีสะอาด</label><label><input type="checkbox" data-filter="rune"> รูน 90+</label></div>
+            <div class="filter-group"><h3>การรับประกัน</h3><label><input type="checkbox" data-filter="warranty"> มีรับประกันหลังขาย</label></div>
+            <div class="filter-group"><button class="linkbtn" id="resetFilters">ล้างตัวกรองทั้งหมด →</button></div>
+          </aside>
+
+          <div>
+            <div class="result-row"><span id="resultText">กำลังแสดงรายการ</span><span>คลิก “ดูรายละเอียด” เพื่อเปิด side panel</span></div>
+            <div class="products" id="products"></div>
+            <div class="loadmore"><button class="btn" id="loadMore">แสดงเพิ่ม</button></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="trust" style="background:var(--soft);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+      <div class="wrap">
+        <div class="section-head"><div><h2>ข้อมูลที่ควรเห็นก่อนจ่ายเงิน</h2><p>ความน่าเชื่อถือไม่ได้มาจาก badge เยอะ แต่จากการแสดงเงื่อนไขและสถานะของ ID ให้ตรวจสอบได้ก่อนซื้อ</p></div><div class="meta">Mock policy / ยังไม่ใช่เงื่อนไขการขายจริง</div></div>
+        <div class="trust-table">
+          <div class="trust-item"><div class="num">01</div><h3>ตรวจ Stock ก่อนลงขาย</h3><p>แต่ละ ID มีรหัสอ้างอิง สเปก และสถานะพร้อมขาย/ขายแล้วชัดเจน</p></div>
+          <div class="trust-item"><div class="num">02</div><h3>แจ้งสถานะผูกบัญชี</h3><p>แสดงข้อมูล binding และความพร้อมในการโอนข้อมูลเป็นส่วนหนึ่งของ product spec</p></div>
+          <div class="trust-item"><div class="num">03</div><h3>มี Order Reference</h3><p>ผู้ซื้อใช้เลขออเดอร์เพื่อติดตามสถานะและติดต่อร้านได้โดยไม่ต้องจำรายละเอียดซ้ำ</p></div>
+          <div class="trust-item"><div class="num">04</div><h3>เงื่อนไขหลังการขาย</h3><p>แยก warranty/refund/support ออกจากข้อความการตลาด และแสดงก่อน checkout</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="how">
+      <div class="wrap">
+        <div class="section-head"><div><h2>ซื้อแบบ 4 ขั้นตอน</h2><p>Flow สั้น แต่ทุกขั้นมีสถานะที่ผู้ใช้เข้าใจได้ ไม่ซ่อน logic สำคัญไว้ใน popup</p></div><div class="meta">Member required before checkout</div></div>
+        <div class="steps">
+          <div class="step"><div class="step-no">STEP 01</div><h3>เลือก ID</h3><p>ค้นหา กรอง และเทียบราคา/สเปกจากหน้า catalog</p></div>
+          <div class="step"><div class="step-no">STEP 02</div><h3>เข้าสู่ระบบ</h3><p>สมัครสมาชิกหรือ login เพื่อผูกคำสั่งซื้อกับผู้ซื้อ</p></div>
+          <div class="step"><div class="step-no">STEP 03</div><h3>ชำระเงิน</h3><p>ทดสอบได้ทั้ง QR อัตโนมัติ หรือโอนเงินพร้อมแนบสลิป</p></div>
+          <div class="step"><div class="step-no">STEP 04</div><h3>รับข้อมูล ID</h3><p>ทดสอบได้ทั้ง instant delivery หรือรอ Admin ตรวจสอบก่อนส่ง</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact-strip" id="contact">
+      <div class="wrap contact-grid">
+        <div><h2>ต้องการเช็ก ID ก่อนซื้อ?</h2><p>ส่วน Contact ยังเป็น placeholder จนกว่าร้านจะมี LINE OA / Facebook / ช่องทางสนับสนุนจริง</p></div>
+        <div class="contact-list"><div class="contact-item"><b>LINE</b><span>Coming soon</span></div><div class="contact-item"><b>FACEBOOK</b><span>Coming soon</span></div><div class="contact-item"><b>ORDER SUPPORT</b><span>Member center</span></div><div class="contact-item"><b>OPERATING HOURS</b><span>To be confirmed</span></div></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="footer-grid">
+        <div class="footer-brand"><div class="brand"><span class="brand-mark">R</span><span>RIFT ID</span></div><p>ROV account storefront mockup. Independent shop concept; not an official Garena website.</p></div>
+        <div><h4>STORE</h4><a href="#catalog">ID ทั้งหมด</a><a href="#catalog">ID แนะนำ</a><a href="#catalog">ID ราคาพิเศษ</a></div>
+        <div><h4>BUYER</h4><a href="#how">วิธีซื้อ</a><a href="#trust">เงื่อนไขร้าน</a><a href="#contact">ติดต่อร้าน</a></div>
+        <div><h4>ACCOUNT</h4><a href="javascript:void(0)" onclick="openAuth('login')">เข้าสู่ระบบ</a><a href="javascript:void(0)" onclick="openAuth('register')">สมัครสมาชิก</a></div>
+        <div><h4>LEGAL</h4><a href="#">Terms</a><a href="#">Privacy</a><a href="#">Refund Policy</a></div>
+      </div>
+      <div class="fine"><span>© 2026 RIFT ID MOCKUP</span><span>DESIGN REVIEW BUILD / NO LIVE PAYMENT / NO DATABASE</span></div>
+    </div>
+  </footer>
+
+  <div class="drawer-backdrop" id="backdrop" onclick="closeDrawer()"></div>
+  <aside class="drawer" id="drawer" aria-live="polite">
+    <div class="drawer-head"><b id="drawerTitle">รายละเอียด ID</b><button class="close" onclick="closeDrawer()" aria-label="ปิด">×</button></div>
+    <div class="drawer-body" id="drawerBody"></div>
+    <div class="drawer-foot" id="drawerFoot"></div>
+  </aside>
+
+  <script>
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const format = n => new Intl.NumberFormat('th-TH').format(n);
+const ranks = ['Conqueror','Master','Diamond'];
+const featured = ['Limited Collection','Collab Archive','Season Collector','Rare Skin Set','Rank Ready','Clean Transfer'];
+const items = Array.from({length:100},(_,i)=>{
+  const n=i+1, skins=56+((n*17)%151), heroes=85+((n*7)%39), rune=70+((n*11)%31), rank=ranks[n%3];
+  const price=990+((n*379)%15000); const sold=n%13===0 || n%29===0;
+  return {id:`RIFT-${String(n).padStart(3,'0')}`,index:String(n).padStart(2,'0'),title:featured[n%featured.length],skins,heroes,rune,rank,price,sold,rare:n%2===0,clean:n%3!==0,warranty:n%4!==0,win:48+((n*3)%19)};
+});
+let shown=12, payment='qr', delivery='instant', authed=false, authMode='login', activeItem=null;
+
+function render(){
+  const q=$('#search').value.trim().toLowerCase(); const rank=$('#rankFilter').value; const st=$('#statusFilter').value;
+  const min=Number($('#minPrice').value||0), max=Number($('#maxPrice').value||999999);
+  const checks=Object.fromEntries($$('#filters input[type=checkbox]').map(x=>[x.dataset.filter,x.checked]));
+  let data=items.filter(x=>{
+    const hay=`${x.id} ${x.title} ${x.rank}`.toLowerCase();
+    return (!q||hay.includes(q))&&(rank==='all'||x.rank===rank)&&(st==='all'||(st==='sold')===x.sold)&&x.price>=min&&x.price<=max&&(!checks.rare||x.rare)&&(!checks.clean||x.clean)&&(!checks.rune||x.rune>=90)&&(!checks.warranty||x.warranty);
+  });
+  const sort=$('#sort').value; if(sort==='price-asc')data.sort((a,b)=>a.price-b.price); if(sort==='price-desc')data.sort((a,b)=>b.price-a.price); if(sort==='skins-desc')data.sort((a,b)=>b.skins-a.skins);
+  $('#resultText').textContent=`พบ ${data.length} รายการ · แสดง ${Math.min(shown,data.length)}`;
+  $('#filterCount').textContent=$$('#filters input[type=checkbox]:checked').length;
+  $('#products').innerHTML=data.slice(0,shown).map(x=>`
+    <article class="product">
+      <div class="cover" data-index="${x.index}"><div class="cover-top"><span class="cover-code">${x.id}</span><span class="cover-state ${x.sold?'sold':''}">${x.sold?'SOLD':'AVAILABLE'}</span></div><div class="cover-bottom"><b>${x.title}</b><span>${x.rank} / Rune ${x.rune}</span></div></div>
+      <div class="product-body">
+        <div class="product-title-row"><h3>${x.id}</h3><span class="price">฿${format(x.price)}</span></div>
+        <div class="chips">${x.rare?'<span class="chip">RARE</span>':''}${x.clean?'<span class="chip">CLEAN</span>':''}${x.warranty?'<span class="chip">WARRANTY</span>':''}</div>
+        <div class="card-spec"><div><b>${x.skins}</b><span>SKINS</span></div><div><b>${x.heroes}</b><span>HEROES</span></div><div><b>${x.win}%</b><span>WIN RATE</span></div></div>
+        <div class="product-actions"><button class="linkbtn" onclick="openDetail('${x.id}')">ดูรายละเอียด →</button><button class="btn sm ${x.sold?'':'primary'}" ${x.sold?'disabled':''} onclick="startBuy('${x.id}')">${x.sold?'ขายแล้ว':'ซื้อ'}</button></div>
+      </div>
+    </article>`).join('');
+  $('#loadMore').style.display=shown<data.length?'inline-flex':'none';
+}
+
+function openDrawer(title,body,foot=''){ $('#drawerTitle').textContent=title; $('#drawerBody').innerHTML=body; $('#drawerFoot').innerHTML=foot; $('#backdrop').classList.add('open'); $('#drawer').classList.add('open'); document.body.style.overflow='hidden'; }
+function closeDrawer(){ $('#backdrop').classList.remove('open'); $('#drawer').classList.remove('open'); document.body.style.overflow=''; }
+
+function openDetail(id){
+  const x=items.find(v=>v.id===id); activeItem=x;
+  openDrawer(`รายละเอียด ${x.id}`,`
+    <div class="detail-cover"><span>${x.id} / ${x.rank}</span><strong>${x.title}</strong><span>${x.sold?'SOLD':'AVAILABLE'} · Mock product dossier</span></div>
+    <div class="detail-price">฿${format(x.price)}</div>
+    <div class="detail-grid"><div><b>${x.skins}</b><span>SKINS</span></div><div><b>${x.heroes}</b><span>HEROES</span></div><div><b>${x.rank}</b><span>RANK</span></div><div><b>${x.rune}</b><span>RUNE</span></div><div><b>${x.win}%</b><span>WIN RATE</span></div><div><b>${x.clean?'CLEAN':'BOUND'}</b><span>ACCOUNT STATUS</span></div></div>
+    <div class="notice">ข้อมูลทั้งหมดเป็นข้อมูลจำลองสำหรับ Review UX/UI เท่านั้น รุ่น Production ต้องเชื่อม inventory จริงและมีการตรวจสอบสถานะบัญชีก่อนแสดงผล</div>`,
+    x.sold?'<button class="btn" style="width:100%" disabled>รายการนี้ขายแล้ว</button>':`<button class="btn primary" style="width:100%" onclick="startBuy('${x.id}')">ซื้อ ID นี้ · ฿${format(x.price)}</button>`);
+}
+
+function openAuth(mode='login'){
+  authMode=mode;
+  openDrawer(mode==='login'?'เข้าสู่ระบบ':'สมัครสมาชิก',`
+    <div class="auth-tabs"><button class="${mode==='login'?'active':''}" onclick="openAuth('login')">เข้าสู่ระบบ</button><button class="${mode==='register'?'active':''}" onclick="openAuth('register')">สมัครสมาชิก</button></div>
+    ${mode==='register'?'<div class="form-row"><label>ชื่อที่ใช้ติดต่อ</label><input placeholder="ชื่อ"></div>':''}
+    <div class="form-row"><label>อีเมล</label><input type="email" placeholder="name@example.com"></div>
+    <div class="form-row"><label>รหัสผ่าน</label><input type="password" placeholder="••••••••"></div>
+    ${mode==='register'?'<div class="form-row"><label>ยืนยันรหัสผ่าน</label><input type="password" placeholder="••••••••"></div>':''}
+    <div class="notice">Mock authentication — ปุ่มด้านล่างจะจำลองสถานะสมาชิกใน browser เท่านั้น</div>`,
+    `<button class="btn primary" style="width:100%" onclick="finishAuth()">${mode==='login'?'เข้าสู่ระบบ':'สร้างบัญชี'}</button>`);
+}
+function finishAuth(){authed=true; closeDrawer(); if(activeItem&&!activeItem.sold)setTimeout(()=>openCheckout(activeItem),120)}
+function startBuy(id){activeItem=items.find(v=>v.id===id); if(!authed){openAuth('login');return} openCheckout(activeItem)}
+function openCheckout(x){
+  const payText=payment==='qr'?'QR Payment (Mock)':'โอนเงิน + แนบสลิป (Mock)'; const delText=delivery==='instant'?'ส่งข้อมูล ID ทันทีหลังยืนยัน':'Admin ตรวจสอบก่อนส่งข้อมูล ID';
+  openDrawer('ตรวจสอบคำสั่งซื้อ',`
+    <div class="checkout-line"><span>สินค้า</span><strong>${x.id}</strong></div><div class="checkout-line"><span>ชุดสกิน</span><span>${x.title}</span></div><div class="checkout-line"><span>การชำระเงิน</span><span>${payText}</span></div><div class="checkout-line"><span>การส่งมอบ</span><span>${delText}</span></div><div class="checkout-line checkout-total"><span>ยอดรวม</span><span>฿${format(x.price)}</span></div>
+    <div class="flow-note">FLOW LAB: ${payment.toUpperCase()} / ${delivery.toUpperCase()} — เปลี่ยนได้จากแถบดำด้านบนของหน้า</div>
+    ${payment==='slip'?'<div class="form-row"><label>แนบสลิป (Mock)</label><input type="file"></div>':'<div class="notice">Production version: ตรงนี้จะแสดง QR พร้อม order reference และสถานะการชำระเงินแบบ real-time</div>'}`,
+    '<button class="btn primary" style="width:100%" onclick="mockOrder()">ยืนยันคำสั่งซื้อ (Mock)</button>');
+}
+function mockOrder(){openDrawer('คำสั่งซื้อจำลอง',`<div class="detail-price">ORDER DEMO-2026-041</div><div class="notice">ระบบ Mockup รับคำสั่งซื้อแล้ว แต่ไม่มีการตัดเงินจริงหรือส่งข้อมูลบัญชีจริง</div><div style="margin-top:18px;font-size:13px;line-height:1.8">Payment: <b>${payment==='qr'?'QR อัตโนมัติ':'โอน + สลิป'}</b><br>Delivery: <b>${delivery==='instant'?'รับ ID ทันที':'Admin ตรวจสอบ'}</b></div>`,`<button class="btn" style="width:100%" onclick="closeDrawer()">กลับไปเลือก ID</button>`) }
+
+$$('#paySeg button').forEach(b=>b.addEventListener('click',()=>{payment=b.dataset.pay; $$('#paySeg button').forEach(x=>x.classList.toggle('active',x===b))}));
+$$('#deliverySeg button').forEach(b=>b.addEventListener('click',()=>{delivery=b.dataset.delivery; $$('#deliverySeg button').forEach(x=>x.classList.toggle('active',x===b))}));
+['search','rankFilter','statusFilter','sort','minPrice','maxPrice'].forEach(id=>$('#'+id).addEventListener('input',()=>{shown=12;render()}));
+$$('#filters input[type=checkbox]').forEach(x=>x.addEventListener('change',()=>{shown=12;render()}));
+$('#loadMore').addEventListener('click',()=>{shown+=12;render()});
+$('#resetFilters').addEventListener('click',()=>{$$('#filters input[type=checkbox]').forEach(x=>x.checked=false);$('#minPrice').value='';$('#maxPrice').value='';render()});
+$('#mobileFilterToggle').addEventListener('click',()=>$('#filters').classList.toggle('open'));
+render();
+
+</script>
+</body>
+</html>
