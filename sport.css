@@ -1,0 +1,88 @@
+:root{
+  --canvas:#f7f7f7;
+  --soft:#ededed;
+  --dark:#050505;
+  --dark-2:#111111;
+  --line:#d0d0d0;
+  --line-dark:#3b3b3b;
+  --accent:#d61f26;
+  --accent-dark:#a80f15;
+  --error:#d61f26;
+  --warning:#d61f26;
+  --success:#d61f26;
+}
+:focus-visible{outline-color:var(--accent)}
+.brand-mark{background:var(--accent);color:#fff}
+.brand-mark:after{background:#fff}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.primary:hover{background:var(--accent-dark);border-color:var(--accent-dark);color:#fff}
+.btn.on-dark:hover{border-color:var(--accent);color:#ff6268}
+.seg button.active{background:var(--accent);color:#fff}
+.filter-group input[type=checkbox]{accent-color:var(--accent)}
+.field:focus{border-color:var(--accent);outline-color:var(--accent)}
+.hero{
+  background:
+    linear-gradient(90deg,rgba(4,4,4,.97) 0%,rgba(4,4,4,.93) 45%,rgba(4,4,4,.66) 75%,rgba(4,4,4,.42) 100%),
+    url('https://raw.githubusercontent.com/kritmongkol2543/Rov-ID/main/assets/rov-hero.jpg') 72% center/cover no-repeat;
+  min-height:610px;
+}
+.hero-grid{grid-template-columns:minmax(0,.88fr) minmax(520px,1.12fr)}
+.hero-kicker{color:#e7e7e7;letter-spacing:.08em}
+.hero h1{letter-spacing:-.052em}
+.hero-stage{
+  background:
+    linear-gradient(90deg,rgba(6,6,6,.9),rgba(6,6,6,.35)),
+    url('https://raw.githubusercontent.com/kritmongkol2543/Rov-ID/main/assets/rov-hero.jpg') 70% center/cover no-repeat;
+  border-color:#4a4a4a;
+}
+.hero-stage:before,.product:before,.detail-cover:before{background:var(--accent)}
+.edition,.trust-item .num,.step-no{color:#e5575c}
+.price,.detail-price{color:var(--accent-dark)}
+.product{background:#fff}
+.product:hover{border-color:#8c8c8c;box-shadow:0 8px 24px rgba(0,0,0,.07)}
+.cover{
+  background:
+    linear-gradient(180deg,rgba(0,0,0,.18) 0%,rgba(0,0,0,.6) 62%,rgba(0,0,0,.9) 100%),
+    linear-gradient(135deg,rgba(214,31,38,.52),transparent 43%),
+    url('https://raw.githubusercontent.com/kritmongkol2543/Rov-ID/main/assets/rov-hero.jpg') 68% center/cover no-repeat;
+}
+.cover:before{
+  content:"";
+  position:absolute;
+  width:76px;
+  height:76px;
+  right:18px;
+  bottom:44px;
+  z-index:1;
+  background:url('https://raw.githubusercontent.com/kritmongkol2543/Rov-ID/main/assets/rov-item-1.png') center/contain no-repeat;
+  filter:drop-shadow(0 10px 16px rgba(0,0,0,.45));
+}
+.product:nth-child(4n+2) .cover:before{background-image:url('https://raw.githubusercontent.com/kritmongkol2543/Rov-ID/main/assets/rov-item-2.png')}
+.product:nth-child(4n+3) .cover:before{background-image:url('https://raw.githubusercontent.com/kritmongkol2543/Rov-ID/main/assets/rov-item-3.png')}
+.product:nth-child(4n+4) .cover:before{background-image:url('https://raw.githubusercontent.com/kritmongkol2543/Rov-ID/main/assets/rov-item-4.png')}
+.cover:after{color:rgba(255,255,255,.09)}
+.cover-state{color:#ffb2b5}
+.cover-bottom span{color:#c7c7c7}
+.linkbtn:hover{color:var(--accent-dark)}
+.detail-cover{
+  background:
+    linear-gradient(180deg,rgba(214,31,38,.22),rgba(0,0,0,.2) 35%,rgba(0,0,0,.82) 100%),
+    url('https://raw.githubusercontent.com/kritmongkol2543/Rov-ID/main/assets/rov-hero.jpg') 70% center/cover no-repeat;
+}
+.detail-cover:after{
+  content:"";
+  position:absolute;
+  width:82px;
+  height:82px;
+  right:20px;
+  bottom:20px;
+  background:url('https://raw.githubusercontent.com/kritmongkol2543/Rov-ID/main/assets/rov-item-1.png') center/contain no-repeat;
+  filter:drop-shadow(0 10px 18px rgba(0,0,0,.5));
+}
+.flow-note{background:#f7d9db;border-color:#edb7ba;color:#761318}
+.contact-strip,footer{background:#070707}
+@media(max-width:560px){
+  .hero{background-position:67% center}
+  .hero-stage{background-position:67% center}
+  .cover:before{width:68px;height:68px;right:14px}
+}
