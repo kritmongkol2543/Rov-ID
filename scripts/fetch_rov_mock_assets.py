@@ -94,6 +94,21 @@ def save_items(urls):
         raise RuntimeError(f"Only found {saved} suitable RoV item images")
 
 
+def patch_index():
+    p = Path("index.html")
+    text = p.read_text(encoding="utf-8")
+    if 'href="sport.css"' not in text:
+        text = text.replace(
+            '<link rel="stylesheet" href="styles.css">',
+            '<link rel="stylesheet" href="styles.css">\n  <link rel="stylesheet" href="sport.css">',
+        )
+    text = text.replace(
+        'ROV account storefront mockup. Independent shop concept; not an official Garena website.',
+        'ROV account storefront mockup. Public RoV visual assets are used for design review only; not an official Garena website.',
+    )
+    p.write_text(text, encoding="utf-8")
+
+
 def main():
     OUT.mkdir(exist_ok=True)
     r = requests.get(PAGE, headers=UA, timeout=25)
@@ -104,7 +119,8 @@ def main():
         raise RuntimeError("Official RoV page returned no CDN image URLs")
     save_hero(urls)
     save_items(recommended_item_urls(soup, urls))
-    print("Saved public mockup assets:")
+    patch_index()
+    print("Saved public mockup assets and linked sport theme:")
     for p in sorted(OUT.glob("rov-*")):
         print(p, p.stat().st_size)
 
