@@ -23,9 +23,8 @@
   document.addEventListener('dragstart', (event) => {
     if (event.target && event.target.tagName === 'IMG') event.preventDefault();
   }, true);
-}
 
-  // CLIENT_PREVIEW_EXTERNAL_NAV_GUARD
+  // Client preview must never navigate to external source/repository URLs.
   document.addEventListener('click', (event) => {
     const anchor = event.target && event.target.closest ? event.target.closest('a[href]') : null;
     if (!anchor) return;
