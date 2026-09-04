@@ -23,4 +23,23 @@
   document.addEventListener('dragstart', (event) => {
     if (event.target && event.target.tagName === 'IMG') event.preventDefault();
   }, true);
+}
+
+  // CLIENT_PREVIEW_EXTERNAL_NAV_GUARD
+  document.addEventListener('click', (event) => {
+    const anchor = event.target && event.target.closest ? event.target.closest('a[href]') : null;
+    if (!anchor) return;
+    const raw = anchor.getAttribute('href') || '';
+    if (!raw || raw.startsWith('#') || raw.startsWith('javascript:')) return;
+    try {
+      const target = new URL(raw, window.location.href);
+      if (target.origin !== window.location.origin) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+    } catch (_) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  }, true);
 })();

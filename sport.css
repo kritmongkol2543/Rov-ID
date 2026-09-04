@@ -23,7 +23,7 @@
 .hero{
   background:
     linear-gradient(90deg,rgba(4,4,4,.97) 0%,rgba(4,4,4,.93) 45%,rgba(4,4,4,.66) 75%,rgba(4,4,4,.42) 100%),
-    url('https://raw.githubusercontent.com/kritmongkol2543/Rov-ID/main/assets/rov-hero.jpg') 72% center/cover no-repeat;
+    url('/assets/rov-hero.jpg') 72% center/cover no-repeat;
   min-height:610px;
 }
 .hero-grid{grid-template-columns:minmax(0,.88fr) minmax(520px,1.12fr)}
@@ -32,7 +32,7 @@
 .hero-stage{
   background:
     linear-gradient(90deg,rgba(6,6,6,.9),rgba(6,6,6,.35)),
-    url('https://raw.githubusercontent.com/kritmongkol2543/Rov-ID/main/assets/rov-hero.jpg') 70% center/cover no-repeat;
+    url('/assets/rov-hero.jpg') 70% center/cover no-repeat;
   border-color:#4a4a4a;
 }
 .hero-stage:before,.product:before,.detail-cover:before{background:var(--accent)}
@@ -44,7 +44,7 @@
   background:
     linear-gradient(180deg,rgba(0,0,0,.18) 0%,rgba(0,0,0,.6) 62%,rgba(0,0,0,.9) 100%),
     linear-gradient(135deg,rgba(214,31,38,.52),transparent 43%),
-    url('https://raw.githubusercontent.com/kritmongkol2543/Rov-ID/main/assets/rov-hero.jpg') 68% center/cover no-repeat;
+    url('/assets/rov-hero.jpg') 68% center/cover no-repeat;
 }
 .cover:before{
   content:"";
@@ -54,12 +54,12 @@
   right:18px;
   bottom:44px;
   z-index:1;
-  background:url('https://raw.githubusercontent.com/kritmongkol2543/Rov-ID/main/assets/rov-item-1.png') center/contain no-repeat;
+  background:url('/assets/rov-item-1.png') center/contain no-repeat;
   filter:drop-shadow(0 10px 16px rgba(0,0,0,.45));
 }
-.product:nth-child(4n+2) .cover:before{background-image:url('https://raw.githubusercontent.com/kritmongkol2543/Rov-ID/main/assets/rov-item-2.png')}
-.product:nth-child(4n+3) .cover:before{background-image:url('https://raw.githubusercontent.com/kritmongkol2543/Rov-ID/main/assets/rov-item-3.png')}
-.product:nth-child(4n+4) .cover:before{background-image:url('https://raw.githubusercontent.com/kritmongkol2543/Rov-ID/main/assets/rov-item-4.png')}
+.product:nth-child(4n+2) .cover:before{background-image:url('/assets/rov-item-2.png')}
+.product:nth-child(4n+3) .cover:before{background-image:url('/assets/rov-item-3.png')}
+.product:nth-child(4n+4) .cover:before{background-image:url('/assets/rov-item-4.png')}
 .cover:after{color:rgba(255,255,255,.09)}
 .cover-state{color:#ffb2b5}
 .cover-bottom span{color:#c7c7c7}
@@ -67,7 +67,7 @@
 .detail-cover{
   background:
     linear-gradient(180deg,rgba(214,31,38,.22),rgba(0,0,0,.2) 35%,rgba(0,0,0,.82) 100%),
-    url('https://raw.githubusercontent.com/kritmongkol2543/Rov-ID/main/assets/rov-hero.jpg') 70% center/cover no-repeat;
+    url('/assets/rov-hero.jpg') 70% center/cover no-repeat;
 }
 .detail-cover:after{
   content:"";
@@ -76,7 +76,7 @@
   height:82px;
   right:20px;
   bottom:20px;
-  background:url('https://raw.githubusercontent.com/kritmongkol2543/Rov-ID/main/assets/rov-item-1.png') center/contain no-repeat;
+  background:url('/assets/rov-item-1.png') center/contain no-repeat;
   filter:drop-shadow(0 10px 18px rgba(0,0,0,.5));
 }
 .flow-note{background:#f7d9db;border-color:#edb7ba;color:#761318}

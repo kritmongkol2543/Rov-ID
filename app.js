@@ -9,7 +9,7 @@ const heroPool = [
   {name:'Nakroth',url:'https://cdn-webth.garenanow.com/webth/cdn/gth/rov/non-events/official/3e2709c4727c28ce77fe1639ca27007f998447558.png',pos:'56% center'},
   {name:'Thorne',url:'https://cdn-webth.garenanow.com/webth/cdn/gth/rov/non-events/official/ce835783cea7ae047de9d2d8230ef854.jpg',pos:'60% center'},
   {name:'Mina',url:'https://cdn-webth.garenanow.com/webth/cdn/gth/rov/non-events/official/398df33c49822c332372be0355f837cf.png',pos:'54% center'},
-  {name:'Store Feature',url:'https://raw.githubusercontent.com/kritmongkol2543/Rov-ID/main/assets/rov-hero.jpg',pos:'70% center'}
+  {name:'Store Feature',url:'/assets/rov-hero.jpg',pos:'70% center'}
 ];
 const skinPool = [
   'https://cdn-webth.garenanow.com/webth/cdn/gth/rov/non-events/official/464db265f9944eeeb2eb371287e73c75.png',
@@ -20,10 +20,10 @@ const skinPool = [
   'https://cdn-webth.garenanow.com/webth/cdn/gth/rov/non-events/official/07b7fbb450e16850033c796abc5fb4b2.png'
 ];
 const itemPool = [
-  'https://raw.githubusercontent.com/kritmongkol2543/Rov-ID/main/assets/rov-item-1.png',
-  'https://raw.githubusercontent.com/kritmongkol2543/Rov-ID/main/assets/rov-item-2.png',
-  'https://raw.githubusercontent.com/kritmongkol2543/Rov-ID/main/assets/rov-item-3.png',
-  'https://raw.githubusercontent.com/kritmongkol2543/Rov-ID/main/assets/rov-item-4.png'
+  '/assets/rov-item-1.png',
+  '/assets/rov-item-2.png',
+  '/assets/rov-item-3.png',
+  '/assets/rov-item-4.png'
 ];
 const items = Array.from({length:100},(_,i)=>{
   const n=i+1, skins=56+((n*17)%151), heroes=85+((n*7)%39), rune=70+((n*11)%31), rank=ranks[n%3];
