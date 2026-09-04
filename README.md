@@ -2,10 +2,14 @@
 
 Static UX/UI mockup for a Thai ROV game-account storefront.
 
+## Live preview
+https://rov-id-mockup-auto589643-3110s-projects.vercel.app
+
 ## Current mockup scope
 - Store-owned inventory model
 - Demo inventory: 100 IDs
 - Member-required purchase flow (mock only)
+- Login / register demo
 - Search, filter and sort
 - Product detail modal
 - Payment flow toggle: Auto QR / Manual transfer + slip
