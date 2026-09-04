@@ -1,0 +1,86 @@
+name: Emergency sanitize client preview
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/emergency-client-preview-sanitize.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sanitize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Remove GitHub runtime references and harden preview
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          replacements = {
+            'https://raw.githubusercontent.com/kritmongkol2543/Rov-ID/main/assets/rov-hero.jpg': '/assets/rov-hero.jpg',
+            'https://raw.githubusercontent.com/kritmongkol2543/Rov-ID/main/assets/rov-item-1.png': '/assets/rov-item-1.png',
+            'https://raw.githubusercontent.com/kritmongkol2543/Rov-ID/main/assets/rov-item-2.png': '/assets/rov-item-2.png',
+            'https://raw.githubusercontent.com/kritmongkol2543/Rov-ID/main/assets/rov-item-3.png': '/assets/rov-item-3.png',
+            'https://raw.githubusercontent.com/kritmongkol2543/Rov-ID/main/assets/rov-item-4.png': '/assets/rov-item-4.png',
+          }
+          for file in ['app.js','sport.css']:
+            p=Path(file)
+            s=p.read_text(encoding='utf-8')
+            for a,b in replacements.items(): s=s.replace(a,b)
+            p.write_text(s,encoding='utf-8')
+
+          p=Path('index.html')
+          s=p.read_text(encoding='utf-8')
+          if '<base href="/">' not in s:
+            s=s.replace('<head>','<head>\n  <base href="/">',1)
+          if '<meta name="referrer" content="no-referrer">' not in s:
+            s=s.replace('<meta name="theme-color" content="#0a0a0a" />','<meta name="theme-color" content="#0a0a0a" />\n  <meta name="referrer" content="no-referrer">',1)
+          p.write_text(s,encoding='utf-8')
+
+          p=Path('security.js')
+          s=p.read_text(encoding='utf-8')
+          marker='CLIENT_PREVIEW_EXTERNAL_NAV_GUARD'
+          if marker not in s:
+            s=s.rstrip()[:-4] + f'''\n\n  // {marker}\n  document.addEventListener('click', (event) => {{\n    const anchor = event.target && event.target.closest ? event.target.closest('a[href]') : null;\n    if (!anchor) return;\n    const raw = anchor.getAttribute('href') || '';\n    if (!raw || raw.startsWith('#') || raw.startsWith('javascript:')) return;\n    try {{\n      const target = new URL(raw, window.location.href);\n      if (target.origin !== window.location.origin) {{\n        event.preventDefault();\n        event.stopPropagation();\n      }}\n    }} catch (_) {{\n      event.preventDefault();\n      event.stopPropagation();\n    }}\n  }}, true);\n}})();\n'''
+            p.write_text(s,encoding='utf-8')
+
+          Path('vercel.json').write_text('''{
+            "headers": [
+              {
+                "source": "/(.*)",
+                "headers": [
+                  {"key":"Content-Security-Policy","value":"default-src 'self'; img-src 'self' https://cdn-webth.garenanow.com data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'"},
+                  {"key":"Referrer-Policy","value":"no-referrer"},
+                  {"key":"X-Content-Type-Options","value":"nosniff"},
+                  {"key":"X-Frame-Options","value":"DENY"},
+                  {"key":"Permissions-Policy","value":"camera=(), microphone=(), geolocation=()"}
+                ]
+              }
+            ]
+          }\n''',encoding='utf-8')
+          PY
+
+      - name: Release gate - no GitHub runtime source references
+        run: |
+          if grep -RniE 'github\.com|raw\.githubusercontent\.com' index.html app.js styles.css sport.css catalog-art.css security.js; then
+            echo 'Blocked: GitHub reference still exists in runtime files.' >&2
+            exit 1
+          fi
+
+      - name: Commit sanitized client preview
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html app.js sport.css security.js vercel.json
+          if git diff --cached --quiet; then
+            echo "No changes needed"
+            exit 0
+          fi
+          git commit -m "Emergency sanitize client preview source links"
+          git push origin main
