@@ -1,0 +1,39 @@
+name: Client preview release gate
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'app.js'
+      - 'styles.css'
+      - 'sport.css'
+      - 'catalog-art.css'
+      - 'security.js'
+      - 'vercel.json'
+      - '.github/workflows/client-preview-release-gate.yml'
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: JavaScript syntax
+        run: |
+          node --check app.js
+          node --check security.js
+      - name: No repository URLs in runtime
+        run: |
+          if grep -RniE 'github\.com|raw\.githubusercontent\.com' index.html app.js styles.css sport.css catalog-art.css security.js; then
+            echo 'Release blocked: repository URL exposed in runtime.' >&2
+            exit 1
+          fi
+      - name: CTA stays local
+        run: |
+          grep -q 'href="#catalog" class="btn primary">ดู ID พร้อมขาย</a>' index.html
+          grep -q '<base href="/">' index.html
+      - name: Security headers configured
+        run: |
+          test -f vercel.json
+          grep -q 'Content-Security-Policy' vercel.json
