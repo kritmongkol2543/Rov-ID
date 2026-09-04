@@ -29,14 +29,14 @@ jobs:
       - name: Fetch public RoV artwork and item images
         run: python scripts/fetch_rov_mock_assets.py
 
-      - name: Commit mockup assets
+      - name: Commit mockup assets and theme link
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add assets/rov-hero.jpg assets/rov-item-1.png assets/rov-item-2.png assets/rov-item-3.png assets/rov-item-4.png
+          git add index.html sport.css assets/rov-hero.jpg assets/rov-item-1.png assets/rov-item-2.png assets/rov-item-3.png assets/rov-item-4.png
           if git diff --cached --quiet; then
-            echo 'No asset changes'
+            echo 'No changes'
           else
-            git commit -m 'Add public RoV mockup assets'
+            git commit -m 'Apply sport red RoV mockup assets'
             git push
           fi
